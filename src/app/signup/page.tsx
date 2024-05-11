@@ -15,9 +15,12 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  username: z
+    .string()
+    .min(2, {
+      message: "Username must be at least 2 characters.",
+    })
+    .max(5, "Can not bemore than 5 characters"),
   firstName: z.string().min(2, {
     message: "First name must be at least 2 characters.",
   }),
@@ -38,35 +41,46 @@ const SignupPage: React.FC = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmitHandler(values: z.infer<typeof formSchema>) {
+    console.log(values);
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
   }
 
   return (
-    <div className="max-w-md mx-auto p-8 bg-white rounded shadow">
+    <div className="mt-10 max-w-md mx-auto p-8 bg-white rounded shadow-lg border border-gray-400">
+      <h1 className="text-2xl font-semibold text-center">Sign Up</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmitHandler)}
+          className="space-y-8"
+        >
           <FormField
             control={form.control}
             name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="shadcn" {...field} />
-                </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
+            render={({ field }) => {
+              console.log(field);
+              return (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input placeholder="shadcn" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This is your public display name.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              );
+            }}
           />
           <FormField
             control={form.control}
@@ -106,6 +120,21 @@ const SignupPage: React.FC = () => {
                   <Input placeholder="Enter your email" {...field} />
                 </FormControl>
                 <FormDescription>Your email address.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter your password" {...field} />
+                </FormControl>
+                <FormDescription>Your password.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
