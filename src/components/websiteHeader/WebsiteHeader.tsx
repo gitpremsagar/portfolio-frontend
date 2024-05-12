@@ -9,8 +9,11 @@ const Navbar: React.FC = () => {
         </Link>
         <ul className="flex space-x-4">
           <NavbarLink href="/projects" linkText="Projects" />
+          <NavbarLink href="/blog" linkText="Blog" />
           <NavbarLink href="/about" linkText="About" />
           <NavbarLink href="/contact" linkText="Contact" />
+          <NavbarLink href="/sign-up" linkText="Sign Up" />
+          <NavbarLink href="/sign-in" linkText="Sign In" />
         </ul>
       </div>
     </nav>

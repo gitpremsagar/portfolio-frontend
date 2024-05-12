@@ -1,12 +1,5 @@
 import Section from "@/components/customUIs/Section";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import ProjectCard from "@/components/homepage/projectSection/ProjectCard";
 
 // dummy projects
 const dummyProjects = [
@@ -15,24 +8,6 @@ const dummyProjects = [
     description: "Project 1 description",
     content: "Project 1 content",
     footer: "Project 1 footer",
-  },
-  {
-    title: "Project 2",
-    description: "Project 2 description",
-    content: "Project 2 content",
-    footer: "Project 2 footer",
-  },
-  {
-    title: "Project 3",
-    description: "Project 3 description",
-    content: "Project 3 content",
-    footer: "Project 3 footer",
-  },
-  {
-    title: "Project 4",
-    description: "Project 4 description",
-    content: "Project 4 content",
-    footer: "Project 4 footer",
   },
 ];
 
@@ -46,31 +21,6 @@ const ProjectsSection: React.FC = () => {
         ))}
       </div>
     </Section>
-  );
-};
-
-interface Project {
-  project: {
-    title: string;
-    description: string;
-    content: string;
-    footer: string;
-  };
-}
-const ProjectCard: React.FC<Project> = ({ project }) => {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{project.title}</CardTitle>
-        <CardDescription>{project.description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <p>{project.content}</p>
-      </CardContent>
-      <CardFooter>
-        <p>{project.footer}</p>
-      </CardFooter>
-    </Card>
   );
 };
 
