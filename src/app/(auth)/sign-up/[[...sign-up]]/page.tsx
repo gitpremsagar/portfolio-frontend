@@ -13,6 +13,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { USERS_API_ENDPOINT } from "@/lib/constants";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const formSchema = z
   .object({
@@ -38,7 +42,11 @@ const formSchema = z
   });
 
 const SignupPage: React.FC = () => {
-  // 1. Define your form.
+  const router = useRouter();
+
+  const [error, setError] = useState<string | null>(null); //TODO: Handle error propoerly
+  const [isPostingSignUpForm, setIsPostingSignUpForm] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,11 +58,20 @@ const SignupPage: React.FC = () => {
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmitHandler(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  async function onSubmitHandler(values: z.infer<typeof formSchema>) {
+    setIsPostingSignUpForm(true);
+    try {
+      const response = await axios.post(USERS_API_ENDPOINT, values);
+      if (response.status === 201) {
+        console.log(response.data);
+        // Redirect to the sign-up successful page.
+        router.push("sign-up/successful");
+      }
+    } catch (error) {
+      setError((error as any).response.data);
+      setIsPostingSignUpForm(false);
+      console.error(error);
+    }
   }
 
   return (
@@ -149,7 +166,9 @@ const SignupPage: React.FC = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button disabled={isPostingSignUpForm} type="submit">
+            {isPostingSignUpForm ? "Signing Up..." : "Sign Up"}
+          </Button>
         </form>
       </Form>
     </div>
