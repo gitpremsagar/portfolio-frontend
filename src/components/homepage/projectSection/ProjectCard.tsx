@@ -7,6 +7,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  CardHeaderContent,
 } from "@/components/ui/card";
 
 const ProjectSchema = z.object({
@@ -24,14 +25,16 @@ const ProjectCard: React.FC<Project> = ({ project }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{project.title}</CardTitle>
-        <CardDescription>{project.description}</CardDescription>
         <Image
           src="https://via.placeholder.com/500x400"
           alt="Project image"
           width={500}
           height={400}
         />
+        <CardHeaderContent>
+          <CardTitle>{project.title}</CardTitle>
+          <CardDescription>{project.description}</CardDescription>
+        </CardHeaderContent>
       </CardHeader>
       <CardContent>
         <p>{project.content}</p>
