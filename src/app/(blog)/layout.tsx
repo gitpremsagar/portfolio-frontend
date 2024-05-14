@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { cn } from "@/lib/utils";
+import BlogHeader from "@/components/websiteHeader/BlogHeader";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -11,8 +12,8 @@ const fontSans = FontSans({
 // const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Prem Sagar",
-  description: "Prem Sagar's portfolio.",
+  title: "Prem's Blog",
+  description: "Latest articles from Prem Sagar.",
 };
 
 export default function RootLayout({
@@ -28,6 +29,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <BlogHeader />
         {children}
       </body>
     </html>

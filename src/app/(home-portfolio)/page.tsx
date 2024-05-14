@@ -15,6 +15,10 @@ export default function Home() {
       {/* Skills section */}
       <SkillsSection />
 
+      {/* YouTube Section */}
+
+      {/* Blog section */}
+
       {/* Contact section */}
       <ContactSection />
     </main>
