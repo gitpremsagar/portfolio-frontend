@@ -5,6 +5,7 @@ const jwtTokenSchema = z.object({
     lastName: z.string(),
     userRoll: z.string(),
     userId: z.string(),
+    email: z.string(),
 });
 
 const userSchema = jwtTokenSchema.extend({

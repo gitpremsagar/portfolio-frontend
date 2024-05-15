@@ -1,6 +1,15 @@
+"use client";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Navbar: React.FC = () => {
+  const user = useSelector((state: any) => state.user);
+
+  useEffect(() => {
+    console.log("user in redux store = ", user);
+  }, [user]);
+
   return (
     <nav className="container mx-auto px-4 py-4">
       <div className="flex justify-between items-center">
@@ -11,8 +20,17 @@ const Navbar: React.FC = () => {
           <NavbarLink href="/dashboard/portfolio" linkText="Portfolio" />
           <NavbarLink href="/dashboard/blog" linkText="Blog" />
           <NavbarLink href="/dashboard/youtube" linkText="YouTube" />
-          <NavbarLink href="/sign-in" linkText="Login In" />
-          <NavbarLink href="/sign-up" linkText="Sign Up" />
+          {user.userId !== "" ? (
+            <>
+              <NavbarLink href="/dashboard" linkText="Dashboard" />
+              <NavbarLink href="/sign-out" linkText="Sign Out" />
+            </>
+          ) : (
+            <>
+              <NavbarLink href="/sign-in" linkText="Login In" />
+              <NavbarLink href="/sign-up" linkText="Sign Up" />
+            </>
+          )}
         </ul>
       </div>
     </nav>

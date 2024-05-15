@@ -4,7 +4,7 @@ const SignUpSuccessful: React.FC = () => {
   return (
     <div>
       <h1>Sign Up Successful</h1>
-      <Link href="/auth/sign-in">
+      <Link href="/sign-in">
         <Button>Sign In</Button>
       </Link>
     </div>

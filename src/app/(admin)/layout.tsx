@@ -1,10 +1,8 @@
-import type { Metadata } from "next";
+"use client";
 import AdminHeader from "@/components/websiteHeader/AdminHeader";
-
-export const metadata: Metadata = {
-  title: "Welcom Prem",
-  description: "Dashboard for Prem Sagar.",
-};
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
+import ProtectRoute from "@/components/ProtectRoute";
 
 export default function AdminDashboardLayout({
   children,
@@ -12,9 +10,10 @@ export default function AdminDashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <Provider store={store}>
+      <ProtectRoute />
       <AdminHeader />
       {children}
-    </>
+    </Provider>
   );
 }
