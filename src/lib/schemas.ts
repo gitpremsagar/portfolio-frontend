@@ -12,4 +12,11 @@ const userSchema = jwtTokenSchema.extend({
     jwtToken: z.string(),
 });
 
-export {jwtTokenSchema, userSchema};
+
+const TechonologySchema = z.object({
+    technologyName: z.string().min(2,{message:"Technology name should be atleast 2 characters long"}),
+    technologyId: z.string(),
+    technologyDescription: z.string().min(2,{message:"Technology description should be atleast 2 characters long"})
+});
+
+export {jwtTokenSchema, userSchema,TechonologySchema};

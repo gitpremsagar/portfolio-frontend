@@ -14,7 +14,7 @@ const ProtectRoute: React.FC = () => {
 
   async function updateStoreWithUserDetails(jwtToken: string) {
     const decodedToken = await verifyAndDecodeToken(jwtToken);
-    console.log("decodedToken = ", decodedToken);
+    // console.log("decodedToken = ", decodedToken);
 
     type UserType = z.infer<typeof userSchema>;
 
@@ -37,7 +37,8 @@ const ProtectRoute: React.FC = () => {
     if (jwtToken) {
       updateStoreWithUserDetails(jwtToken);
     } else {
-      console.log("No JWT token found in cookie");
+      //TODO: Uncomment this line when you are ready to protect the route
+      // console.log("No JWT token found in cookie");
       // router.push("/sign-in");
     }
   }, []);
