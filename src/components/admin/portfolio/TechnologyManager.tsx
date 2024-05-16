@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { TECHNOLOGIES_API_ENDPOINT } from "@/lib/constants";
-import { TechonologySchema } from "@/lib/schemas";
+import { TechnologySchema } from "@/lib/schemas";
 import { z } from "zod";
 import TechnologyCard from "./TechnologyCard";
 import { AddTechnologyDialog } from "./AddTechnologyDialog";
@@ -10,7 +10,7 @@ import ResponsiveGrid from "@/components/customUIs/ResponsiveGrid";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const TechnologyManager: React.FC = () => {
-  type Technology = z.infer<typeof TechonologySchema>;
+  type Technology = z.infer<typeof TechnologySchema>;
   const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [loadingTechnologies, setLoadingTechnologies] = useState(true);
 

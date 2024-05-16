@@ -9,19 +9,17 @@ import {
   CardTitle,
   CardHeaderContent,
 } from "@/components/ui/card";
+import { ProjectSchema } from "@/lib/schemas";
 
-const ProjectSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  content: z.string(),
-  footer: z.string(),
-});
+type ProjectType = z.infer<typeof ProjectSchema>;
 
-interface Project {
-  project: z.infer<typeof ProjectSchema>;
-}
-
-const ProjectCard: React.FC<Project> = ({ project }) => {
+const ProjectCard = ({
+  project,
+  setProjects,
+}: {
+  project: ProjectType;
+  setProjects: React.Dispatch<React.SetStateAction<ProjectType[]>>;
+}) => {
   return (
     <Card>
       <CardHeader>
@@ -32,22 +30,19 @@ const ProjectCard: React.FC<Project> = ({ project }) => {
           height={400}
         />
         <CardHeaderContent>
-          <CardTitle>{project.title}</CardTitle>
-          <CardDescription>{project.description}</CardDescription>
+          <CardTitle>{project.projectName}</CardTitle>
+          <CardDescription>{project.projectDescription}</CardDescription>
         </CardHeaderContent>
       </CardHeader>
       <CardContent>
-        <p>{project.content}</p>
+        <p>{project.frontendCodeLink}</p>
       </CardContent>
       <CardContent>
-        <p>{project.content}</p>
+        <p>{project.backendCodeLink}</p>
       </CardContent>
       <CardContent>
-        <p>{project.content}</p>
+        <p>{project.projectLiveLink}</p>
       </CardContent>
-      <CardFooter>
-        <p>{project.footer}</p>
-      </CardFooter>
     </Card>
   );
 };

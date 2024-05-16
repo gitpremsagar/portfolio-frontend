@@ -1,14 +1,9 @@
 "use client";
 import Link from "next/link";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const Navbar: React.FC = () => {
   const user = useSelector((state: any) => state.user);
-
-  useEffect(() => {
-    console.log("user in redux store = ", user);
-  }, [user]);
 
   return (
     <nav className="container mx-auto px-4 py-4">

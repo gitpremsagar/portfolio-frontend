@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
-import { TechonologySchema } from "@/lib/schemas";
+import { TechnologySchema } from "@/lib/schemas";
 import { TypeOf, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -33,7 +33,7 @@ import { useSelector } from "react-redux";
 import { userSchema } from "@/lib/schemas";
 import { AiOutlineLoading } from "react-icons/ai";
 
-type technologyType = z.infer<typeof TechonologySchema>;
+type technologyType = z.infer<typeof TechnologySchema>;
 
 export function AddTechnologyDialog({
   setTechnologies,
@@ -83,7 +83,7 @@ export function AddTechnologyDialog({
   }
 
   const form = useForm<technologyType>({
-    resolver: zodResolver(TechonologySchema),
+    resolver: zodResolver(TechnologySchema),
     defaultValues: {
       technologyId: "",
       technologyName: "",

@@ -2,6 +2,7 @@
 
 import ProjectManager from "@/components/admin/portfolio/ProjectManager";
 import TechnologyManager from "@/components/admin/portfolio/TechnologyManager";
+import ResponsiveSection from "@/components/customUIs/ResponsiveSection";
 import Section from "@/components/customUIs/Section";
 import { useEffect } from "react";
 
@@ -14,10 +15,12 @@ const DashboardPortfolio: React.FC = () => {
       <h2 className="text-2xl text-center m-10 font-bold text-gray-800">
         Manage Your Portfolio
       </h2>
-      <Section className="p-4 sm:p-8 md:p-12 lg:p-16">
+      <ResponsiveSection>
         <TechnologyManager />
-      </Section>
-      <ProjectManager />
+      </ResponsiveSection>
+      <ResponsiveSection>
+        <ProjectManager />
+      </ResponsiveSection>
     </main>
   );
 };

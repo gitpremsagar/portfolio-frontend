@@ -22,24 +22,24 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
-import { TechnologySchema } from "@/lib/schemas";
-import { TypeOf, z } from "zod";
+import { ProjectSchema, TechnologySchema } from "@/lib/schemas";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { TECHNOLOGIES_API_ENDPOINT } from "@/lib/constants";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { userSchema } from "@/lib/schemas";
+import { AiOutlineLoading } from "react-icons/ai";
 
-type technologyType = z.infer<typeof TechnologySchema>;
+type ProjectType = z.infer<typeof ProjectSchema>;
+type TechnologyType = z.infer<typeof TechnologySchema>;
 
-export function EditTechnologyDialog({
-  technology,
-  setTechnologies,
+export function AddProjectDialog({
+  setProjects,
 }: {
-  technology: technologyType;
-  setTechnologies: React.Dispatch<React.SetStateAction<technologyType[]>>;
+  setProjects: React.Dispatch<React.SetStateAction<ProjectType[]>>;
 }) {
   type UserType = z.infer<typeof userSchema>;
   interface UserState {
@@ -47,59 +47,75 @@ export function EditTechnologyDialog({
   }
   const user = useSelector((state: UserState) => state.user);
 
-  const [postingTechUpdateForm, setPostingTechUpdateForm] = useState(false);
-  const [errorPostingTechUpdateForm, setErrorPostingTechUpdateForm] =
+  const [postingCreateProjectForm, setPostingCreateProjectForm] =
+    useState(false);
+  const [errorpostingCreateProjectForm, setErrorpostingCreateProjectForm] =
     useState(false);
   const [errorMesssage, setErrorMessage] = useState("");
-  async function handleUpdateTechnology(updatedTechnology: technologyType) {
-    setPostingTechUpdateForm(true);
+
+  const closeAddTechDialogRef = useRef<HTMLButtonElement>(null);
+  async function handleCreateTechnology(newTechnology: ProjectType) {
+    setPostingCreateProjectForm(true);
     try {
-      await axios.put(
-        `${TECHNOLOGIES_API_ENDPOINT}/${updatedTechnology.technologyId}`,
-        updatedTechnology,
+      const response = await axios.post(
+        `${TECHNOLOGIES_API_ENDPOINT}`,
+        newTechnology,
         {
           headers: {
             Authorization: `Bearer ${user.jwtToken}`,
           },
         }
       );
-      setTechnologies((prevTechnologies) =>
-        prevTechnologies.map((technology) =>
-          technology.technologyId === updatedTechnology.technologyId
-            ? updatedTechnology
-            : technology
-        )
-      );
-      setPostingTechUpdateForm(false);
-      setErrorPostingTechUpdateForm(false);
+      setProjects((prevTechnologies) => [...prevTechnologies, response.data]);
+      setPostingCreateProjectForm(false);
+      setErrorpostingCreateProjectForm(false);
+      form.reset();
+
+      // close the dialog
+      closeAddTechDialogRef.current?.click();
     } catch (error) {
-      console.error("error in updating technology ", error);
-      setErrorPostingTechUpdateForm(true);
-      setErrorMessage("Error in updating technology");
-      setPostingTechUpdateForm(false);
+      console.error("error in adding technology ", error);
+      setErrorpostingCreateProjectForm(true);
+      setErrorMessage("Error in adding technology");
+      setPostingCreateProjectForm(false);
     }
   }
 
-  const form = useForm<technologyType>({
-    resolver: zodResolver(TechnologySchema),
-    defaultValues: technology,
+  const form = useForm<ProjectType>({
+    resolver: zodResolver(ProjectSchema),
+    defaultValues: {
+      backendCodeLink: "",
+      frontendCodeLink: "",
+      projectDescription: "",
+      projectId: "",
+      projectName: "",
+      projectLiveLink: "",
+      technologies: [],
+    },
   });
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit</Button>
+        <button
+          onClick={() => {
+            form.reset();
+          }}
+          className="min-h-[130px] h-full w-full border border-1 border-gray-300 rounded-lg bg-gray-200 hover:bg-gray-300 p-2 text-gray-800 shadow-lg transition-colors duration-300 ease-in-out"
+        >
+          Add Project
+        </button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <Form {...form}>
           <form
             className=""
-            onSubmit={form.handleSubmit(handleUpdateTechnology)}
+            onSubmit={form.handleSubmit(handleCreateTechnology)}
           >
             <DialogHeader>
-              <DialogTitle>Edit</DialogTitle>
+              <DialogTitle>Add</DialogTitle>
               <DialogDescription>
-                {technology.technologyDescription}
+                Add a new project to the portfolio.
               </DialogDescription>
             </DialogHeader>
 
@@ -171,19 +187,28 @@ export function EditTechnologyDialog({
             />
 
             <DialogFooter className="sm:justify-start mt-3">
-              {errorPostingTechUpdateForm && (
+              {errorpostingCreateProjectForm && (
                 <p className="text-red-600">{errorMesssage}</p>
               )}
               <Button
                 type="submit"
                 className="px-3"
-                disabled={postingTechUpdateForm}
+                disabled={postingCreateProjectForm}
               >
-                {/* TODO: Show Loader */}
-                {postingTechUpdateForm ? "Updating..." : "Update"}
+                {postingCreateProjectForm ? (
+                  <>
+                    <AiOutlineLoading className="animate-spin" /> Adding
+                  </>
+                ) : (
+                  "Add"
+                )}
               </Button>
               <DialogClose asChild>
-                <Button type="button" variant="secondary">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  ref={closeAddTechDialogRef}
+                >
                   Close
                 </Button>
               </DialogClose>

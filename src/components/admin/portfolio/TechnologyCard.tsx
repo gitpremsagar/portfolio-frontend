@@ -1,6 +1,6 @@
 "use client";
 import { z } from "zod";
-import { TechonologySchema } from "@/lib/schemas";
+import { TechnologySchema } from "@/lib/schemas";
 import TechnologyName from "./TechnologyName";
 import { EditTechnologyDialog } from "@/components/admin/portfolio/EditTechnologyDialog";
 import axios from "axios";
@@ -17,7 +17,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-type technologyType = z.infer<typeof TechonologySchema>;
+type technologyType = z.infer<typeof TechnologySchema>;
 
 const TechnologyCard = ({
   technology,
