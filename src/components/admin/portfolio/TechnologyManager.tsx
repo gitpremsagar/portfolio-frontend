@@ -6,6 +6,8 @@ import { z } from "zod";
 import TechnologyCard from "./TechnologyCard";
 import { AddTechnologyDialog } from "./AddTechnologyDialog";
 import ResponsiveH3 from "@/components/customUIs/ResponsiveH3";
+import ResponsiveGrid from "@/components/customUIs/ResponsiveGrid";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const TechnologyManager: React.FC = () => {
   type Technology = z.infer<typeof TechonologySchema>;
@@ -30,9 +32,14 @@ const TechnologyManager: React.FC = () => {
     <div>
       <ResponsiveH3>Technology Manager</ResponsiveH3>
       {loadingTechnologies ? (
-        <p>Loading...</p>
+        <ResponsiveGrid>
+          <Skeleton className="w-full min-h-[150px] h-full rounded-lg" />
+          <Skeleton className="w-full min-h-[150px] h-full rounded-lg" />
+          <Skeleton className="w-full min-h-[150px] h-full rounded-lg" />
+          <Skeleton className="w-full min-h-[150px] h-full rounded-lg" />
+        </ResponsiveGrid>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <ResponsiveGrid>
           {technologies.map((technology) => (
             <TechnologyCard
               key={technology.technologyId}
@@ -41,7 +48,7 @@ const TechnologyManager: React.FC = () => {
             />
           ))}
           <AddTechnologyDialog setTechnologies={setTechnologies} />
-        </div>
+        </ResponsiveGrid>
       )}
     </div>
   );
