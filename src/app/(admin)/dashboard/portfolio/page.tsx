@@ -11,9 +11,9 @@ const DashboardPortfolio: React.FC = () => {
   }, []);
   return (
     <main>
-      <h1 className="text-2xl text-center m-10 font-bold text-gray-800">
+      <h2 className="text-2xl text-center m-10 font-bold text-gray-800">
         Manage Your Portfolio
-      </h1>
+      </h2>
       <Section className="p-4 sm:p-8 md:p-12 lg:p-16">
         <TechnologyManager />
       </Section>

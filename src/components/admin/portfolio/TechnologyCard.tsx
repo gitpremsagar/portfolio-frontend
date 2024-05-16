@@ -14,7 +14,7 @@ const TechnologyCard = ({
   setTechnologies: React.Dispatch<React.SetStateAction<technologyType[]>>;
 }) => {
   return (
-    <article className="bg-white shadow-md rounded-md p-4 m-4 border border-1 border-gray-300">
+    <article className="bg-white shadow-md rounded-md p-4 border border-1 border-gray-300">
       <h2 className="text-gray-800 cursor-default mb-2">
         <TechnologyName>{technology.technologyName}</TechnologyName>
       </h2>

@@ -4,16 +4,13 @@ import { TECHNOLOGIES_API_ENDPOINT } from "@/lib/constants";
 import { TechonologySchema } from "@/lib/schemas";
 import { z } from "zod";
 import TechnologyCard from "./TechnologyCard";
+import { AddTechnologyDialog } from "./AddTechnologyDialog";
+import ResponsiveH3 from "@/components/customUIs/ResponsiveH3";
 
 const TechnologyManager: React.FC = () => {
   type Technology = z.infer<typeof TechonologySchema>;
   const [technologies, setTechnologies] = useState<Technology[]>([]);
   const [loadingTechnologies, setLoadingTechnologies] = useState(true);
-
-  async function handleAddTechnology(technology: Technology) {
-    const response = await axios.post(TECHNOLOGIES_API_ENDPOINT, technology);
-    setTechnologies((prevTechnologies) => [...prevTechnologies, response.data]);
-  }
 
   // fetch technologies
   useEffect(() => {
@@ -31,7 +28,7 @@ const TechnologyManager: React.FC = () => {
   }, []);
   return (
     <div>
-      <h1>Technology Manager</h1>
+      <ResponsiveH3>Technology Manager</ResponsiveH3>
       {loadingTechnologies ? (
         <p>Loading...</p>
       ) : (
@@ -43,6 +40,7 @@ const TechnologyManager: React.FC = () => {
               setTechnologies={setTechnologies}
             />
           ))}
+          <AddTechnologyDialog setTechnologies={setTechnologies} />
         </div>
       )}
     </div>
