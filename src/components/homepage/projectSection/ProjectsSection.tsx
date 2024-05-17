@@ -1,9 +1,8 @@
-import Section from "@/components/customUIs/Section";
-import ProjectCard from "@/components/homepage/projectSection/ProjectCard";
 import axios from "axios";
 import { PROJECTS_API_ENDPOINT } from "@/lib/constants";
 import { ProjectSchema } from "@/lib/schemas";
 import { z } from "zod";
+import ResponsiveSection from "@/components/customUIs/ResponsiveSection";
 
 type ProjectType = z.infer<typeof ProjectSchema>;
 async function fetchProjects(): Promise<ProjectType[]> {
@@ -20,12 +19,10 @@ async function fetchProjects(): Promise<ProjectType[]> {
 const ProjectsSection: React.FC = async () => {
   const projects = await fetchProjects(); //as unknown as ResponseType;
   return (
-    <Section className="p-5 sm:p-10 md:p-20">
+    <ResponsiveSection>
       <h2 className="text-2xl font-bold text-center mb-8">Projects</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {projects.map((project) => (
-          // <ProjectCard key={project.projectId} project={project} />
-          // project card
           <div
             key={project.projectId}
             className="bg-white shadow-lg rounded-lg overflow-hidden"
@@ -74,7 +71,7 @@ const ProjectsSection: React.FC = async () => {
           </div>
         ))}
       </div>
-    </Section>
+    </ResponsiveSection>
   );
 };
 

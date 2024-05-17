@@ -22,19 +22,18 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
-import { ProjectSchema, TechnologySchema } from "@/lib/schemas";
+import { ProjectSchema } from "@/lib/schemas";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { TECHNOLOGIES_API_ENDPOINT } from "@/lib/constants";
+import { PROJECTS_API_ENDPOINT } from "@/lib/constants";
 import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { userSchema } from "@/lib/schemas";
 import { AiOutlineLoading } from "react-icons/ai";
 
 type ProjectType = z.infer<typeof ProjectSchema>;
-type TechnologyType = z.infer<typeof TechnologySchema>;
 
 export function AddProjectDialog({
   setProjects,
@@ -53,12 +52,12 @@ export function AddProjectDialog({
     useState(false);
   const [errorMesssage, setErrorMessage] = useState("");
 
-  const closeAddTechDialogRef = useRef<HTMLButtonElement>(null);
+  const closeAddProjectDialogRef = useRef<HTMLButtonElement>(null);
   async function handleCreateTechnology(newTechnology: ProjectType) {
     setPostingCreateProjectForm(true);
     try {
       const response = await axios.post(
-        `${TECHNOLOGIES_API_ENDPOINT}`,
+        `${PROJECTS_API_ENDPOINT}`,
         newTechnology,
         {
           headers: {
@@ -66,13 +65,14 @@ export function AddProjectDialog({
           },
         }
       );
+      console.log("create proejct response = ", response.data);
       setProjects((prevTechnologies) => [...prevTechnologies, response.data]);
       setPostingCreateProjectForm(false);
       setErrorpostingCreateProjectForm(false);
       form.reset();
 
       // close the dialog
-      closeAddTechDialogRef.current?.click();
+      closeAddProjectDialogRef.current?.click();
     } catch (error) {
       console.error("error in adding technology ", error);
       setErrorpostingCreateProjectForm(true);
@@ -90,6 +90,9 @@ export function AddProjectDialog({
       projectId: "",
       projectName: "",
       projectLiveLink: "",
+      projectImageLink: "",
+      projectMockupImageLink: "",
+      projectPosition: 0,
       technologies: [],
     },
   });
@@ -122,13 +125,13 @@ export function AddProjectDialog({
             <div className="sr-only">
               <FormField
                 control={form.control}
-                name="technologyId"
+                name="projectId"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Technology ID</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Enter technology ID"
+                        placeholder="Enter project ID"
                         type="text"
                         {...field}
                         readOnly
@@ -136,7 +139,7 @@ export function AddProjectDialog({
                       />
                     </FormControl>
                     <FormDescription>
-                      This ID will be used to identify the technology.
+                      This ID will be used to identify the project.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -146,13 +149,13 @@ export function AddProjectDialog({
 
             <FormField
               control={form.control}
-              name="technologyName"
+              name="projectName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Technology Name</FormLabel>
+                  <FormLabel>Project Name</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter technology Name"
+                      placeholder="Enter Project Name"
                       type="text"
                       {...field}
                     />
@@ -167,19 +170,146 @@ export function AddProjectDialog({
 
             <FormField
               control={form.control}
-              name="technologyDescription"
+              name="projectDescription"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Technology Description</FormLabel>
+                  <FormLabel>Project Description</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter technology Descriotion"
+                      placeholder="Enter Project Descriotion"
                       type="text"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Enter the description of the technology
+                    Enter the description of the project
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="projectLiveLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Project Live Link</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter Project Live Link"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the live link of the project
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="projectImageLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Project Image Link</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter Project Image Link"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the image link of the project
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="projectMockupImageLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Project Mockup Image Link</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter Project Mockup Image Link"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the mockup image link of the project
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="backendCodeLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Backend Code Link</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter Backend Code Link"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the backend code link of the project
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="frontendCodeLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Frontend Code Link</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter Frontend Code Link"
+                      type="text"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the frontend code link of the project
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="projectPosition"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Project Position</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter Project Position"
+                      type="number"
+                      {...field}
+                      onChange={(e) => field.onChange(e.target.valueAsNumber)} // Convert string to number here
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the position of the project
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -207,7 +337,7 @@ export function AddProjectDialog({
                 <Button
                   type="button"
                   variant="secondary"
-                  ref={closeAddTechDialogRef}
+                  ref={closeAddProjectDialogRef}
                 >
                   Close
                 </Button>
