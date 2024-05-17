@@ -9,7 +9,7 @@ import ProjectCard from "@/components/homepage/projectSection/ProjectCard";
 import { AddProjectDialog } from "@/components/admin/portfolio/AddProjectDialog";
 import axios from "axios";
 import { PROJECTS_API_ENDPOINT } from "@/lib/constants";
- 
+
 const ProjectManager: React.FC = () => {
   type ProjectType = z.infer<typeof ProjectSchema>;
   const [projects, setProjects] = useState<ProjectType[]>([]);

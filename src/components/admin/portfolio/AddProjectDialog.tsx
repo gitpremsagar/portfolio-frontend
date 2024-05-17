@@ -22,18 +22,23 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
-import { ProjectSchema } from "@/lib/schemas";
+import { ProjectSchema, TechnologySchema } from "@/lib/schemas";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { PROJECTS_API_ENDPOINT } from "@/lib/constants";
-import { useState, useRef } from "react";
+import {
+  PROJECTS_API_ENDPOINT,
+  TECHNOLOGIES_API_ENDPOINT,
+} from "@/lib/constants";
+import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { userSchema } from "@/lib/schemas";
 import { AiOutlineLoading } from "react-icons/ai";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type ProjectType = z.infer<typeof ProjectSchema>;
+type TechnologyType = z.infer<typeof TechnologySchema>;
 
 export function AddProjectDialog({
   setProjects,
@@ -46,6 +51,29 @@ export function AddProjectDialog({
   }
   const user = useSelector((state: UserState) => state.user);
 
+  // technologies
+  const [technologies, setTechnologies] = useState<TechnologyType[]>([]);
+  const [loadingTechnology, setLoadingTechnology] = useState<boolean>(true);
+  const [errorTechnology, setErrorTechnology] = useState<string | null>(null);
+
+  // fetch technologies
+  useEffect(() => {
+    async function fetchTechnologies() {
+      try {
+        const response = await axios.get(TECHNOLOGIES_API_ENDPOINT);
+        console.log("fetched technologies = ", response.data);
+        setTechnologies(response.data);
+        setLoadingTechnology(false);
+        setErrorTechnology(null);
+      } catch (error) {
+        console.error("error in fetching technologies ", error);
+        setLoadingTechnology(false);
+        setErrorTechnology("Error in fetching technologies");
+      }
+    }
+    fetchTechnologies();
+  }, []);
+
   const [postingCreateProjectForm, setPostingCreateProjectForm] =
     useState(false);
   const [errorpostingCreateProjectForm, setErrorpostingCreateProjectForm] =
@@ -54,6 +82,29 @@ export function AddProjectDialog({
 
   const closeAddProjectDialogRef = useRef<HTMLButtonElement>(null);
   async function handleCreateTechnology(newTechnology: ProjectType) {
+    //insert list of technologies onto newTechnology form data
+    const technologyCheckboxes = document.querySelectorAll(
+      "input[name='techList']"
+    );
+
+    let techList: string[] = [];
+    //loop through all the checkboxes and get the checked ones
+    technologyCheckboxes?.forEach((item: any) => {
+      if (item.checked) {
+        techList.push(item.value);
+      }
+    });
+
+    techList.forEach((techId) => {
+      newTechnology.technologies.push({
+        technologyId: techId,
+        technologyName: "",
+        technologyDescription: "",
+      });
+    });
+
+    console.log("newTechnology = ", newTechnology);
+    // return;
     setPostingCreateProjectForm(true);
     try {
       const response = await axios.post(
@@ -99,17 +150,24 @@ export function AddProjectDialog({
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <button
-          onClick={() => {
-            form.reset();
-          }}
-          className="min-h-[130px] h-full w-full border border-1 border-gray-300 rounded-lg bg-gray-200 hover:bg-gray-300 p-2 text-gray-800 shadow-lg transition-colors duration-300 ease-in-out"
-        >
-          Add Project
-        </button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      {loadingTechnology ? (
+        <p>Loading Technologies...</p>
+      ) : errorTechnology ? (
+        <p>{errorTechnology}</p>
+      ) : (
+        <DialogTrigger asChild>
+          <button
+            onClick={() => {
+              form.reset();
+            }}
+            className="min-h-[130px] h-full w-full border border-1 border-gray-300 rounded-lg bg-gray-200 hover:bg-gray-300 p-2 text-gray-800 shadow-lg transition-colors duration-300 ease-in-out"
+          >
+            Add Project
+          </button>
+        </DialogTrigger>
+      )}
+
+      <DialogContent className="sm:max-w-2xl">
         <Form {...form}>
           <form
             className=""
@@ -210,90 +268,93 @@ export function AddProjectDialog({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="projectImageLink"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Image Link</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter Project Image Link"
-                      type="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter the image link of the project
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-5">
+              <FormField
+                control={form.control}
+                name="projectImageLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Project Image Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter Project Image Link"
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Enter the image link of the project
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="projectMockupImageLink"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Mockup Image Link</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter Project Mockup Image Link"
-                      type="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter the mockup image link of the project
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+              <FormField
+                control={form.control}
+                name="projectMockupImageLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Project Mockup Image Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter Project Mockup Image Link"
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Enter the mockup image link of the project
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-            <FormField
-              control={form.control}
-              name="backendCodeLink"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Backend Code Link</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter Backend Code Link"
-                      type="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter the backend code link of the project
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-5">
+              <FormField
+                control={form.control}
+                name="backendCodeLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Backend Code Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter Backend Code Link"
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Enter the backend code link of the project
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            <FormField
-              control={form.control}
-              name="frontendCodeLink"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Frontend Code Link</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter Frontend Code Link"
-                      type="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter the frontend code link of the project
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+              <FormField
+                control={form.control}
+                name="frontendCodeLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Frontend Code Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter Frontend Code Link"
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Enter the frontend code link of the project
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="projectPosition"
@@ -316,6 +377,25 @@ export function AddProjectDialog({
               )}
             />
 
+            <FormLabel>Technologies Used</FormLabel>
+            <div className="grid grid-cols-3 gap-2">
+              {technologies.length === 0 && (
+                <p className="text-red-600">No technologies found</p>
+              )}
+              {technologies.map((technology) => (
+                <div key={technology.technologyId} className="mt-2">
+                  <Checkbox
+                    id={`tech-${technology.technologyId}`}
+                    name="techList"
+                    value={technology.technologyId}
+                    className="mr-2"
+                  />
+                  <label htmlFor={`tech-${technology.technologyId}`}>
+                    {technology.technologyName}
+                  </label>
+                </div>
+              ))}
+            </div>
             <DialogFooter className="sm:justify-start mt-3">
               {errorpostingCreateProjectForm && (
                 <p className="text-red-600">{errorMesssage}</p>
