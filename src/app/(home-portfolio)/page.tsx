@@ -19,10 +19,6 @@ export default function Home() {
       {/* Testimonial Section */}
       <TestimonialSection />
 
-      {/* YouTube Section */}
-
-      {/* Blog section */}
-
       {/* Contact section */}
       <ContactSection />
     </main>
