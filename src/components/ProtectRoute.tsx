@@ -12,26 +12,26 @@ const ProtectRoute: React.FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  async function updateStoreWithUserDetails(jwtToken: string) {
-    const decodedToken = await verifyAndDecodeToken(jwtToken);
-    // console.log("decodedToken = ", decodedToken);
-
-    type UserType = z.infer<typeof userSchema>;
-
-    if (decodedToken) {
-      const user: UserType = {
-        firstName: decodedToken.firstName,
-        lastName: decodedToken.lastName,
-        email: decodedToken.email,
-        userId: decodedToken.userId,
-        userRoll: decodedToken.userRoll,
-        jwtToken: jwtToken,
-      };
-      dispatch(setUser(user));
-    }
-  }
-
   useEffect(() => {
+    async function updateStoreWithUserDetails(jwtToken: string) {
+      const decodedToken = await verifyAndDecodeToken(jwtToken);
+      // console.log("decodedToken = ", decodedToken);
+
+      type UserType = z.infer<typeof userSchema>;
+
+      if (decodedToken) {
+        const user: UserType = {
+          firstName: decodedToken.firstName,
+          lastName: decodedToken.lastName,
+          email: decodedToken.email,
+          userId: decodedToken.userId,
+          userRoll: decodedToken.userRoll,
+          jwtToken: jwtToken,
+        };
+        dispatch(setUser(user));
+      }
+    }
+
     const jwtToken = Cookies.get("jwtToken");
     console.log("jwtToken in cookie = ", jwtToken);
     if (jwtToken) {

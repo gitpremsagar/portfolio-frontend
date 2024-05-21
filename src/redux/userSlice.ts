@@ -11,6 +11,7 @@ const initialState: UserState = {
   userRoll: '',
   userId: '',
   jwtToken: '',
+  email: '',
 };
 
 const userSlice = createSlice({
