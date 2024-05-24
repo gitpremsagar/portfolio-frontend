@@ -18,9 +18,10 @@ const HeroSection: React.FC = () => {
 
         <div className=" p-20 col-span-2">
           <h1 className="font-bold text-6xl mb-2 uppercase">{`Prem Sagar`}</h1>
-          <h2 className="text-gray-500 uppercase text-2xl mb-10">{`Full Stack Developer`}</h2>
+          <h2 className="text-gray-500 uppercase text-xl ">{`Full Stack Developer`}</h2>
+          <h3 className="text-gray-500 uppercase text-xl mb-10">{`Experience - 1 Year`}</h3>
 
-          <p className="text-xl mb-10">
+          <p className=" mb-10">
             {`I'm a full-stack developer, a YouTuber and a teacher and a loving father of my daughter. I like to work as freelancer. Technologies that i use when I create website are React, Node.js, MongoDB, HTML, JavaScript and more.`}
           </p>
           <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 mb-10">
