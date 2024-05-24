@@ -5,7 +5,7 @@ import { FaGithub, FaLinkedin, FaTwitter, FaYoutube } from "react-icons/fa";
 const HeroSection: React.FC = () => {
   return (
     <Section>
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-4 border-b-2 border-b-gray-400">
         <div className="col-span-2 min-h-screen">
           <Image
             src="/me6-min.jpg"

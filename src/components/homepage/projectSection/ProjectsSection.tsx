@@ -25,7 +25,9 @@ const ProjectsSection: React.FC = async () => {
   let flipper = true;
   return (
     <ResponsiveSection>
-      <ResponsiveH2 clasName="text-center">Projects</ResponsiveH2>
+      <ResponsiveH2 clasName="text-center uppercase text-gray-600">
+        Projects
+      </ResponsiveH2>
 
       {projects.map((project) => {
         flipper = !flipper;

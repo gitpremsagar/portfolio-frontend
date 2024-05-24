@@ -35,7 +35,7 @@ const LeftContainer = ({ children }: { children: React.ReactNode }) => (
 const ProjectThumbnail = ({ project }: { project: Project }) => (
   <div className="col-span-3">
     <Image
-      src={project.projectImageLink}
+      src={`http://localhost:4600/public/images/projectMockupImage/laptopMockupImage.png`}
       alt={project.projectName}
       className="w-full h-[400px] object-cover object-center"
       width={500}
