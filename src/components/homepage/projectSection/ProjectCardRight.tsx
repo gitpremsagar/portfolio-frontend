@@ -23,7 +23,7 @@ const CardContainer = ({ children }: { children: React.ReactNode }) => (
 );
 
 const RightContainer = ({ children }: { children: React.ReactNode }) => (
-  <div className="col-span-3 p-4  border-r-2 border-violet-700 ">
+  <div className="col-span-3 p-4  border-r-[3px] border-gray-800 ">
     {children}
   </div>
 );
@@ -45,11 +45,11 @@ const ProjectThumbnail = ({ project }: { project: Project }) => (
 );
 
 const PointingLine = () => (
-  <div className="col-span-1 w-full flex flex-col items-center justify-center translate-x-[-11px]">
+  <div className="col-span-1 w-full flex flex-col items-center justify-center translate-x-[-8px]">
     <div className="w-full flex items-center">
-      <div className=" border-2 border-violet-700 rounded-full p-2 bg-violet-700"></div>
-      <div className=" border border-1 border-violet-700 w-full"></div>
-      <div className=" border-2 border-violet-700 rounded-full p-2"></div>
+      <div className=" border-[3px] border-gray-800 rounded-full p-1 bg-white"></div>
+      <div className=" border-2 border-gray-800 w-full"></div>
+      <div className=" border-[3px] border-gray-800 rounded-full p-1"></div>
     </div>
   </div>
 );
