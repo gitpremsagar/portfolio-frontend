@@ -84,7 +84,7 @@ const CardBody = ({ project }: { project: Project }) => (
         Backend Code
       </a>
     </div>
-    <ul className="flex flex-wrap mt-4">
+    <ul className="mt-4">
       {project.technologies.map((technology) => (
         <TechName key={technology.technologyId} technology={technology} />
       ))}

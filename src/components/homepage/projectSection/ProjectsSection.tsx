@@ -22,7 +22,7 @@ async function fetchProjects(): Promise<ProjectType[]> {
 const ProjectsSection: React.FC = async () => {
   const projects = await fetchProjects();
 
-  let flipper = true;
+  let flipper = false;
   return (
     <ResponsiveSection>
       <ResponsiveH2 clasName="text-center uppercase text-gray-600">

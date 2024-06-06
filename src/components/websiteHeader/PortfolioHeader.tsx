@@ -10,7 +10,6 @@ const Navbar: React.FC = () => {
         <ul className="flex space-x-4">
           <NavbarLink href="/blog" linkText="Blog" />
           <NavbarLink href="/youtube" linkText="YouTube" />
-          <NavbarLink href="/about" linkText="About" />
           <NavbarLink href="/contact" linkText="Contact" />
         </ul>
       </div>
