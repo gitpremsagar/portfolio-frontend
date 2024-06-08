@@ -10,14 +10,18 @@ import ProjectCardRight from "./ProjectCardRight";
 type ProjectType = z.infer<typeof ProjectSchema>;
 async function fetchProjects(): Promise<ProjectType[]> {
   try {
-    const response = await axios.get(PROJECTS_API_ENDPOINT);
-    // console.log("fetched projects = ", response.data);
-    return response.data;
+    const response = await fetch(PROJECTS_API_ENDPOINT, {
+      next: { revalidate: 60 },
+    });
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error("error in fetching projects ", error);
     return [];
   }
 }
+
+// export const revalidate = 1; // revalidate the data at most every hour
 
 const ProjectsSection: React.FC = async () => {
   const projects = await fetchProjects();
