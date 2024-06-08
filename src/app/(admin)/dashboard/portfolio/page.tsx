@@ -3,7 +3,6 @@
 import ProjectManager from "@/components/admin/portfolio/ProjectManager";
 import TechnologyManager from "@/components/admin/portfolio/TechnologyManager";
 import ResponsiveSection from "@/components/customUIs/ResponsiveSection";
-import Section from "@/components/customUIs/Section";
 import { useEffect } from "react";
 
 const DashboardPortfolio: React.FC = () => {

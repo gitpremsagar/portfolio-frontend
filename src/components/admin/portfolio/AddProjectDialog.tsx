@@ -22,57 +22,55 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
-import { ProjectSchema, TechnologySchema } from "@/lib/schemas";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import {
-  PROJECTS_API_ENDPOINT,
-  TECHNOLOGIES_API_ENDPOINT,
-} from "@/lib/constants";
+import { PROJECTS_API_ENDPOINT } from "@/lib/constants";
 import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { userSchema } from "@/lib/schemas";
 import { AiOutlineLoading } from "react-icons/ai";
 import { Checkbox } from "@/components/ui/checkbox";
+import { RootState } from "@/redux/store";
+import { ProjectSchema } from "@/lib/schemas";
 
-type ProjectType = z.infer<typeof ProjectSchema>;
-type TechnologyType = z.infer<typeof TechnologySchema>;
+const ProjectFormSchema = z.object({
+  projectId: z.string(),
+  projectPosition: z.number(),
+  projectName: z
+    .string()
+    .min(2, { message: "Project name should be atleast 2 characters long" })
+    .max(255, { message: "Project name should be atmost 255 characters long" })
+    .transform((data) => data.trim()),
+  projectDescription: z
+    .string()
+    .min(2, {
+      message: "Project description should be atleast 2 characters long",
+    })
+    .max(255, {
+      message: "Project description should be atmost 255 characters long",
+    })
+    .transform((data) => data.trim()),
+  projectLiveLink: z.string().url(),
+  frontendCodeLink: z.string().url(),
+  backendCodeLink: z.string().url(),
+  technologies: z.array(z.string()),
+  projectImage: typeof window !== "undefined" ? z.instanceof(File) : z.any(),
+  projectMockupImage:
+    typeof window !== "undefined" ? z.instanceof(File) : z.any(),
+});
+
+type Project = z.infer<typeof ProjectFormSchema>;
 
 export function AddProjectDialog({
   setProjects,
 }: {
-  setProjects: React.Dispatch<React.SetStateAction<ProjectType[]>>;
+  setProjects: React.Dispatch<
+    React.SetStateAction<z.infer<typeof ProjectSchema>[]>
+  >;
 }) {
-  type UserType = z.infer<typeof userSchema>;
-  interface UserState {
-    user: UserType;
-  }
-  const user = useSelector((state: UserState) => state.user);
-
-  // technologies
-  const [technologies, setTechnologies] = useState<TechnologyType[]>([]);
-  const [loadingTechnology, setLoadingTechnology] = useState<boolean>(true);
-  const [errorTechnology, setErrorTechnology] = useState<string | null>(null);
-
-  // fetch technologies
-  useEffect(() => {
-    async function fetchTechnologies() {
-      try {
-        const response = await axios.get(TECHNOLOGIES_API_ENDPOINT);
-        console.log("fetched technologies = ", response.data);
-        setTechnologies(response.data);
-        setLoadingTechnology(false);
-        setErrorTechnology(null);
-      } catch (error) {
-        console.error("error in fetching technologies ", error);
-        setLoadingTechnology(false);
-        setErrorTechnology("Error in fetching technologies");
-      }
-    }
-    fetchTechnologies();
-  }, []);
+  const user = useSelector((state: RootState) => state.user);
+  const technologies = useSelector((state: RootState) => state.technologies);
 
   const [postingCreateProjectForm, setPostingCreateProjectForm] =
     useState(false);
@@ -80,9 +78,22 @@ export function AddProjectDialog({
     useState(false);
   const [errorMesssage, setErrorMessage] = useState("");
 
+  const [projectImagePreview, setProjectImagePreview] = useState<string | null>(
+    null
+  );
+  const [selectedProjectImage, setSelectedProjectImage] = useState<File | null>(
+    null
+  );
+  const [projectMockupImagePreview, setProjectMockupImagePreview] = useState<
+    string | null
+  >(null);
+  const [selectedProjectMockupImage, setSelectedProjectMockupImage] =
+    useState<File | null>(null);
+
   const closeAddProjectDialogRef = useRef<HTMLButtonElement>(null);
-  async function handleCreateTechnology(newTechnology: ProjectType) {
-    //insert list of technologies onto newTechnology form data
+  async function handleCreateProject(newProject: Project) {
+    console.log("new project = ", newProject);
+    //insert list of technologies onto newProject form data
     const technologyCheckboxes = document.querySelectorAll(
       "input[name='techList']"
     );
@@ -96,34 +107,36 @@ export function AddProjectDialog({
     });
 
     techList.forEach((techId) => {
-      newTechnology.technologies.push({
-        technologyId: techId,
-        technologyName: "",
-        technologyDescription: "",
-      });
+      newProject.technologies.push(techId);
     });
 
-    console.log("newTechnology = ", newTechnology);
-    // return;
+    const formData = new FormData();
+    formData.append("projectImage", selectedProjectImage as File);
+    formData.append("projectMockupImage", selectedProjectMockupImage as File);
+    formData.append("projectName", newProject.projectName);
+    formData.append("projectDescription", newProject.projectDescription);
+    formData.append("projectLiveLink", newProject.projectLiveLink);
+    formData.append("frontendCodeLink", newProject.frontendCodeLink);
+    formData.append("backendCodeLink", newProject.backendCodeLink);
+    formData.append("projectPosition", newProject.projectPosition.toString());
+    formData.append("technologies", JSON.stringify(newProject.technologies));
+
     setPostingCreateProjectForm(true);
     try {
-      const response = await axios.post(
-        `${PROJECTS_API_ENDPOINT}`,
-        newTechnology,
-        {
-          headers: {
-            Authorization: `Bearer ${user.jwtToken}`,
-          },
-        }
-      );
+      const response = await axios.post(`${PROJECTS_API_ENDPOINT}`, formData, {
+        headers: {
+          Authorization: `Bearer ${user.jwtToken}`,
+          contentType: "multipart/form-data",
+        },
+      });
       console.log("create proejct response = ", response.data);
       setProjects((prevTechnologies) => [...prevTechnologies, response.data]);
       setPostingCreateProjectForm(false);
       setErrorpostingCreateProjectForm(false);
-      form.reset();
+      // form.reset();
 
-      // close the dialog
-      closeAddProjectDialogRef.current?.click();
+      // // close the dialog
+      // closeAddProjectDialogRef.current?.click();
     } catch (error) {
       console.error("error in adding technology ", error);
       setErrorpostingCreateProjectForm(true);
@@ -132,8 +145,8 @@ export function AddProjectDialog({
     }
   }
 
-  const form = useForm<ProjectType>({
-    resolver: zodResolver(ProjectSchema),
+  const form = useForm<Project>({
+    resolver: zodResolver(ProjectFormSchema),
     defaultValues: {
       backendCodeLink: "",
       frontendCodeLink: "",
@@ -141,8 +154,6 @@ export function AddProjectDialog({
       projectId: "",
       projectName: "",
       projectLiveLink: "",
-      projectImageLink: "",
-      projectMockupImageLink: "",
       projectPosition: 0,
       technologies: [],
     },
@@ -150,29 +161,20 @@ export function AddProjectDialog({
 
   return (
     <Dialog>
-      {loadingTechnology ? (
-        <p>Loading Technologies...</p>
-      ) : errorTechnology ? (
-        <p>{errorTechnology}</p>
-      ) : (
-        <DialogTrigger asChild>
-          <button
-            onClick={() => {
-              form.reset();
-            }}
-            className="min-h-[130px] h-full w-full border border-1 border-gray-300 rounded-lg bg-gray-200 hover:bg-gray-300 p-2 text-gray-800 shadow-lg transition-colors duration-300 ease-in-out"
-          >
-            Add Project
-          </button>
-        </DialogTrigger>
-      )}
+      <DialogTrigger asChild>
+        <button
+          onClick={() => {
+            form.reset();
+          }}
+          className="min-h-[130px] h-full w-full border border-1 border-gray-300 rounded-lg bg-gray-200 hover:bg-gray-300 p-2 text-gray-800 shadow-lg transition-colors duration-300 ease-in-out"
+        >
+          Add Project
+        </button>
+      </DialogTrigger>
 
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="sm:max-w-4xl">
         <Form {...form}>
-          <form
-            className=""
-            onSubmit={form.handleSubmit(handleCreateTechnology)}
-          >
+          <form className="" onSubmit={form.handleSubmit(handleCreateProject)}>
             <DialogHeader>
               <DialogTitle>Add</DialogTitle>
               <DialogDescription>
@@ -247,72 +249,122 @@ export function AddProjectDialog({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="projectLiveLink"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Live Link</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter Project Live Link"
-                      type="text"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter the live link of the project
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
+            <div className="grid grid-cols-4 gap-5">
+              <FormField
+                control={form.control}
+                name="projectImage"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Project Image</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        name="projectImage"
+                        accept="image/*"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            const file = e.target.files[0];
+                            setSelectedProjectImage(file);
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            field.onChange(file); // Update the form field with the selected file
+                            // Optionally, set state for preview or direct upload
+
+                            reader.onload = () => {
+                              setProjectImagePreview(reader.result as string);
+                            };
+                          }
+                        }}
+                        // The `multiple` attribute is omitted, defaulting to false, to restrict to a single file upload
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Upload an image for your project.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {projectImagePreview && (
+                <div className="flex items-center justify-center">
+                  <img
+                    src={projectImagePreview}
+                    alt="Project Image Preview"
+                    className="w-32 h-32 object-cover"
+                  />
+                </div>
               )}
-            />
 
-            <div className="grid grid-cols-2 gap-5">
               <FormField
                 control={form.control}
-                name="projectImageLink"
+                name="projectMockupImage"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Project Image Link</FormLabel>
+                    <FormLabel>Project Mockup Image</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Enter Project Image Link"
-                        type="text"
-                        {...field}
+                        type="file"
+                        accept="image/*"
+                        name="projectMockupImage"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            const file = e.target.files[0];
+                            setSelectedProjectMockupImage(file);
+                            field.onChange(file); // Update the form field with the selected file
+                            // Optionally, set state for preview or direct upload
+                            const reader = new FileReader();
+                            reader.readAsDataURL(file);
+                            reader.onload = () => {
+                              setProjectMockupImagePreview(
+                                reader.result as string
+                              );
+                            };
+                          }
+                        }}
                       />
                     </FormControl>
                     <FormDescription>
-                      Enter the image link of the project
+                      Upload a mockup image for your project.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="projectMockupImageLink"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Project Mockup Image Link</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter Project Mockup Image Link"
-                        type="text"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Enter the mockup image link of the project
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {projectMockupImagePreview && (
+                <div className="flex items-center justify-center">
+                  <img
+                    src={projectMockupImagePreview}
+                    alt="Project Mockup Image Preview"
+                    className="w-32 h-32 object-cover"
+                  />
+                </div>
+              )}
             </div>
 
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-4 gap-5">
+              <FormField
+                control={form.control}
+                name="projectLiveLink"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Project Live Link</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter Project Live Link"
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Enter the live link of the project
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="backendCodeLink"
@@ -354,31 +406,32 @@ export function AddProjectDialog({
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="projectPosition"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Project Position</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter Project Position"
+                        type="number"
+                        {...field}
+                        onChange={(e) => field.onChange(e.target.valueAsNumber)} // Convert string to number here
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Enter the position of the project
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-            <FormField
-              control={form.control}
-              name="projectPosition"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Position</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter Project Position"
-                      type="number"
-                      {...field}
-                      onChange={(e) => field.onChange(e.target.valueAsNumber)} // Convert string to number here
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Enter the position of the project
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <FormLabel>Technologies Used</FormLabel>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-6 gap-2">
               {technologies.length === 0 && (
                 <p className="text-red-600">No technologies found</p>
               )}

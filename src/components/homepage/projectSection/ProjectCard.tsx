@@ -10,6 +10,7 @@ import {
   CardHeaderContent,
 } from "@/components/ui/card";
 import { ProjectSchema } from "@/lib/schemas";
+import { BASE_API_URL } from "@/lib/constants";
 
 type ProjectType = z.infer<typeof ProjectSchema>;
 
@@ -24,7 +25,10 @@ const ProjectCard = ({
     <Card>
       <CardHeader>
         <Image
-          src="https://via.placeholder.com/500x400"
+          src={`${BASE_API_URL}/${project.projectImageLink.replace(
+            /\\/g,
+            "/"
+          )}`}
           alt="Project image"
           width={500}
           height={400}

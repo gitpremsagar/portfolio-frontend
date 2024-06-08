@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { TECHNOLOGIES_API_ENDPOINT } from "@/lib/constants";
-import { TechnologySchema } from "@/lib/schemas";
+import { TechnologySchema } from "@/lib/types/technology.type";
 import { z } from "zod";
 import TechnologyCard from "./TechnologyCard";
 import { AddTechnologyDialog } from "./AddTechnologyDialog";

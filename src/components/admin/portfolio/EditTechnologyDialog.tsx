@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
-import { TechnologySchema } from "@/lib/schemas";
+import { TechnologySchema } from "@/lib/types/technology.type";
 import { TypeOf, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";

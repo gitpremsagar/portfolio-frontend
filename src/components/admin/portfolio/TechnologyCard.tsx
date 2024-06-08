@@ -1,6 +1,6 @@
 "use client";
 import { z } from "zod";
-import { TechnologySchema } from "@/lib/schemas";
+import { TechnologySchema } from "@/lib/types/technology.type";
 import TechnologyName from "./TechnologyName";
 import { EditTechnologyDialog } from "@/components/admin/portfolio/EditTechnologyDialog";
 import axios from "axios";
