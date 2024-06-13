@@ -1,4 +1,3 @@
-import axios from "axios";
 import { PROJECTS_API_ENDPOINT } from "@/lib/constants";
 import { ProjectSchema } from "@/lib/schemas";
 import { z } from "zod";
@@ -20,8 +19,6 @@ async function fetchProjects(): Promise<ProjectType[]> {
     return [];
   }
 }
-
-// export const revalidate = 1; // revalidate the data at most every hour
 
 const ProjectsSection: React.FC = async () => {
   const projects = await fetchProjects();

@@ -1,6 +1,9 @@
 import TechName from "@/components/homepage/projectSection/TechnologyName";
 import { Project } from "@/lib/types/project.type";
 import Image from "next/image";
+import LiveLink from "@/components/homepage/projectSection/LiveLink";
+import FrontendLink from "@/components/homepage/projectSection/FrontendLink";
+import BackendLink from "@/components/homepage/projectSection/BackendLink";
 
 const ProjectCardLeft = ({ project }: { project: Project }) => {
   return (
@@ -62,27 +65,9 @@ const CardBody = ({ project }: { project: Project }) => (
     </p>
 
     <div className="grid grid-cols-3">
-      <a
-        target="_blank"
-        href={project.projectLiveLink}
-        className="block text-md font-semibold text-blue-600"
-      >
-        Live Link
-      </a>
-      <a
-        target="_blank"
-        href={project.frontendCodeLink}
-        className="block text-md font-semibold text-blue-600"
-      >
-        Frontend Code
-      </a>
-      <a
-        target="_blank"
-        href={project.backendCodeLink}
-        className="block text-md font-semibold text-blue-600"
-      >
-        Backend Code
-      </a>
+      <LiveLink link={project.projectLiveLink} />
+      <FrontendLink link={project.frontendCodeLink} />
+      <BackendLink link={project.backendCodeLink} />
     </div>
     <ul className="flex flex-wrap mt-4">
       {project.technologies.map((technology) => (
