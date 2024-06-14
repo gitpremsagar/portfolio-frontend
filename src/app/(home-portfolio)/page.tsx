@@ -10,17 +10,19 @@ export default function Home() {
       {/* hero section */}
       <HeroSection />
 
-      {/* projects section */}
-      <ProjectsSection />
+      <div className="container">
+        {/* projects section */}
+        <ProjectsSection />
 
-      {/* Skills section */}
-      <SkillsSection />
+        {/* Skills section */}
+        <SkillsSection />
 
-      {/* Testimonial Section */}
-      <TestimonialSection />
+        {/* Testimonial Section */}
+        {/* <TestimonialSection /> */}
 
-      {/* Contact section */}
-      <ContactSection />
+        {/* Contact section */}
+        <ContactSection />
+      </div>
     </main>
   );
 }

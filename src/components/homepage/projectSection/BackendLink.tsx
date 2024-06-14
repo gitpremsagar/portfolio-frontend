@@ -5,7 +5,7 @@ const BackendLink = ({ link }: { link: string }) => {
     <a
       target="_blank"
       href={link}
-      className="text-md font-semibold text-blue-600 flex items-center"
+      className="text-md font-semibold text-green-600 flex items-center hover:underline"
     >
       <FaFileCode className="mr-2" /> Backend Code
     </a>

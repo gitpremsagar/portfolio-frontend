@@ -1,5 +1,20 @@
+import ResponsiveH2 from "@/components/customUIs/ResponsiveH2";
+import ContactForm from "@/components/homepage/contactSection/ContactForm";
+
 const ContactSection: React.FC = () => {
-  return <section className="py-12">contact section</section>;
+  return (
+    <section className="py-12">
+      <div className="">
+        <div className="flex flex-col">
+          <ResponsiveH2>Contact</ResponsiveH2>
+          <p className="text-gray-600 text-lg text-center">
+            I am available for freelance work. Connect with me via email:
+          </p>
+          <ContactForm />
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default ContactSection;

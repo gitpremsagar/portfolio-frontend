@@ -5,7 +5,7 @@ const FrontendLink = ({ link }: { link: string }) => {
     <a
       target="_blank"
       href={link}
-      className="text-md font-semibold text-blue-600 flex items-center"
+      className="text-md font-semibold text-red-600 flex items-center hover:underline"
     >
       <FaLaptopCode className="mr-2" /> Frontend Code
     </a>

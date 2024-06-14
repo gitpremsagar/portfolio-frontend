@@ -25,10 +25,8 @@ const ProjectsSection: React.FC = async () => {
 
   let flipper = false;
   return (
-    <ResponsiveSection>
-      <ResponsiveH2 clasName="text-center uppercase text-gray-600">
-        Projects
-      </ResponsiveH2>
+    <section>
+      <ResponsiveH2>Projects</ResponsiveH2>
 
       {projects.map((project) => {
         flipper = !flipper;
@@ -38,7 +36,7 @@ const ProjectsSection: React.FC = async () => {
           <ProjectCardRight key={project.projectId} project={project} />
         );
       })}
-    </ResponsiveSection>
+    </section>
   );
 };
 

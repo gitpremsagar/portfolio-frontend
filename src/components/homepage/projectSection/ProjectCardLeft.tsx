@@ -58,22 +58,27 @@ const PointingLine = () => (
 );
 
 const CardBody = ({ project }: { project: Project }) => (
-  <div className="flex flex-col p-8 h-full justify-center">
+  <div className="flex flex-col p-8 h-full justify-center space-y-10">
     <h2 className="text-xl font-bold text-gray-800">{project.projectName}</h2>
     <p className="text-md font-normal text-gray-600">
       {project.projectDescription}
     </p>
 
-    <div className="grid grid-cols-3">
+    <div className="flex w-full text-right justify-start space-x-10">
       <LiveLink link={project.projectLiveLink} />
       <FrontendLink link={project.frontendCodeLink} />
       <BackendLink link={project.backendCodeLink} />
     </div>
-    <ul className="flex flex-wrap mt-4">
-      {project.technologies.map((technology) => (
-        <TechName key={technology.technologyId} technology={technology} />
-      ))}
-    </ul>
+    <div className="mt-4 bg-gray-100 rounded-lg p-5 w-full">
+      <h6 className="text-sm font-semibold text-gray-500 mb-5">
+        Technologies Used:
+      </h6>
+      <ul className="flex flex-wrap mt-4">
+        {project.technologies.map((technology) => (
+          <TechName key={technology.technologyId} technology={technology} />
+        ))}
+      </ul>
+    </div>
   </div>
 );
 

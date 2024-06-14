@@ -5,7 +5,7 @@ const LiveLink = ({ link }: { link: string }) => {
     <a
       target="_blank"
       href={link}
-      className="text-md font-semibold text-blue-600 flex items-center"
+      className="text-md font-semibold text-blue-600 flex items-center hover:underline"
     >
       <FaExternalLinkAlt className="mr-2" /> Live Link
     </a>
