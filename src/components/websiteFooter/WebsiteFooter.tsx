@@ -1,22 +1,31 @@
+import SocialMediaHnadles from "@/components/homepage/heroSection/SocialMediaHandles";
+import Link from "next/link";
+import { NavbarLink } from "@/components/websiteHeader/PortfolioHeader";
+
 const WebsiteFooter = () => {
+  const thisYear = new Date().getFullYear();
   return (
     <footer className="p-4 bg-gray-800 shadow-md mt-8">
-      <div className="grid grid-cols-3 gap-4 mt-8">
+      <div className="grid grid-cols-2 gap-4 mt-8">
         <div className="flex flex-col items-center justify-center p-4">
           <nav>
-            <ul className="flex flex-col items-center justify-center">
-              <li className="text-white text-lg font-semibold mt-4">About</li>
-              <li className="text-white text-lg font-semibold mt-4">
-                Services
-              </li>
-              <li className="text-white text-lg font-semibold mt-4">Contact</li>
+            <ul className="flex flex-col space-y-4">
+              <NavbarLink href="/" linkText="Home" />
+              <NavbarLink href="/blog" linkText="Blog" />
+              <NavbarLink href="/youtube" linkText="YouTube" />
+              <NavbarLink href="#contactSection" linkText="Contact" />
             </ul>
           </nav>
         </div>
+
+        <div className="flex flex-col justify-center items-center mt-8 space-y-3">
+          <p className="text-white text-lg font-semibold">Follow me on:</p>
+          <SocialMediaHnadles />
+        </div>
       </div>
 
-      <div>
-        <p className="text-center text-white">© 2021 Prem Sagar</p>
+      <div className="flex justify-center mt-10">
+        <p className=" text-white">© {thisYear} Prem Sagar</p>
       </div>
     </footer>
   );

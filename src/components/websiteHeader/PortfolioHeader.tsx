@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
         <ul className="flex space-x-4">
           <NavbarLink href="/blog" linkText="Blog" />
           <NavbarLink href="/youtube" linkText="YouTube" />
-          <NavbarLink href="/contact" linkText="Contact" />
+          <NavbarLink href="#contactSection" linkText="Contact" />
         </ul>
       </div>
     </nav>
@@ -37,5 +37,7 @@ const PorfolioHeader: React.FC = () => {
     </header>
   );
 };
+
+export { NavbarLink };
 
 export default PorfolioHeader;

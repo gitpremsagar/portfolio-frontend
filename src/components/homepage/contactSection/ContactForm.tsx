@@ -54,12 +54,20 @@ const ContactForm = () => {
       });
     } catch (error) {
       console.error("Error in sending message ", error);
-      alert("Error in sending message");
+      //   alert("Error in sending message");
+      toast({
+        variant: "destructive",
+        title: "Hey!",
+        description: "Could not send the message!",
+      });
     }
   };
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="space-y-8 border rounded-lg p-10"
+      >
         <FormField
           control={form.control}
           name="senderName"
@@ -127,7 +135,7 @@ const ContactForm = () => {
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Send</Button>
       </form>
     </Form>
   );

@@ -1,6 +1,6 @@
 import Section from "@/components/customUIs/Section";
 import Image from "next/image";
-import { FaGithub, FaLinkedin, FaTwitter, FaYoutube } from "react-icons/fa";
+import SocialMediaHnadles from "./SocialMediaHandles";
 
 const HeroSection: React.FC = () => {
   return (
@@ -28,23 +28,10 @@ const HeroSection: React.FC = () => {
             {`Download Resume`}
           </button>
 
-          <div className="flex space-x-4 mb-10">
-            <a href="http://youtube.com" target="_blank" rel="noreferrer">
-              <FaYoutube className="text-3xl text-gray-500 hover:text-gray-700 transition duration-300" />
-            </a>
-            <a href="http://github.com" target="_blank" rel="noreferrer">
-              <FaGithub className="text-3xl text-gray-500 hover:text-gray-700 transition duration-300" />
-            </a>
-            <a href="http://linkedin.com" target="_blank" rel="noreferrer">
-              <FaLinkedin className="text-3xl text-gray-500 hover:text-gray-700 transition duration-300" />
-            </a>
-            <a href="http://twitter.com" target="_blank" rel="noreferrer">
-              <FaTwitter className="text-3xl text-gray-500 hover:text-gray-700 transition duration-300" />
-            </a>
-          </div>
+          <SocialMediaHnadles />
 
           {/* Address */}
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col space-y-2 mt-10">
             <SubHeading>{`Address`}</SubHeading>
             <p>{`Jamshedpur, India`}</p>
 
