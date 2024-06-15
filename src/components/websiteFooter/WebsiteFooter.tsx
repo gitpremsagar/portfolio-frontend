@@ -5,12 +5,12 @@ import { NavbarLink } from "@/components/websiteHeader/PortfolioHeader";
 const WebsiteFooter = () => {
   const thisYear = new Date().getFullYear();
   return (
-    <footer className="p-4 bg-gray-800 shadow-md mt-8">
-      <div className="grid grid-cols-2 gap-4 mt-8">
+    <footer className="p-4 bg-gray-800 shadow-md">
+      <div className="grid grid-cols-1 md:grid-cols-2">
         <div className="flex flex-col items-center justify-center p-4">
           <nav>
             <ul className="flex flex-col space-y-4">
-              <NavbarLink href="/" linkText="Home" />
+              <NavbarLink href="/" linkText="Prem's Porfolio" />
               <NavbarLink href="/blog" linkText="Blog" />
               <NavbarLink href="/youtube" linkText="YouTube" />
               <NavbarLink href="#contactSection" linkText="Contact" />

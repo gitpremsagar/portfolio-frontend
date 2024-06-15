@@ -5,23 +5,23 @@ import SocialMediaHnadles from "./SocialMediaHandles";
 const HeroSection: React.FC = () => {
   return (
     <Section>
-      <div className="grid grid-cols-4 border-b-2 border-b-gray-400">
-        <div className="col-span-2 min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-4 border-b-2 border-b-gray-400">
+        <div className="md:col-span-2 min-h-screen">
           <Image
             src="/me6-min.jpg"
             alt="hero"
             width={1000}
             height={1000}
-            className="h-full object-cover border-white"
+            className="h-full object-cover"
           />
         </div>
 
-        <div className=" p-20 col-span-2">
-          <h1 className="font-bold text-6xl mb-2 uppercase">{`Prem Sagar`}</h1>
-          <h2 className="text-gray-500 uppercase text-xl ">{`Full Stack Developer`}</h2>
-          <h3 className="text-gray-500 uppercase text-xl mb-10">{`Experience - 1 Year`}</h3>
+        <div className=" p-10 md:p-16 lg:p-20 col-span-2 ">
+          <h1 className="font-bold text-xl sm:text-2xl md:text-4xl lg:text-6xl mb-2 uppercase">{`Prem Sagar`}</h1>
+          <h2 className="text-gray-500 uppercase text-base sm:text-lg md:text-xl lg:text-2xl mb-2">{`Full Stack Developer`}</h2>
+          <h3 className="text-gray-500 uppercase text-base sm:text-lg md:text-xl lg:text-2xl mb-10">{`Experience - 1 Year`}</h3>
 
-          <p className=" mb-10">
+          <p className="text-gray-900 text-sm sm:text-base md:text-lg mb-10">
             {`I'm a full-stack developer, a YouTuber and a teacher and a loving father of my daughter. I like to work as freelancer. Technologies that i use when I create website are React, Node.js, MongoDB, HTML, JavaScript and more.`}
           </p>
           <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 mb-10">

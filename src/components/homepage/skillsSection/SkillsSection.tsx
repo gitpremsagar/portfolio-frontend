@@ -17,11 +17,11 @@ const SkillsSection: React.FC = async () => {
 
   return (
     <section className="">
-      <div className="mx-auto py-12">
+      <div className="py-20">
         <ResponsiveH2>Skills</ResponsiveH2>
-        <div className="grid grid-cols-3 gap-4 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {technologies.map((technology) => (
-            <div key={technology.technologyId} className=" p-4 rounded-lg">
+            <div key={technology.technologyId} className="">
               <h3 className="text-lg font-semibold text-gray-800 mt-4">
                 {technology.technologyName}
               </h3>

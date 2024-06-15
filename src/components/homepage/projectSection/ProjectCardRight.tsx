@@ -26,7 +26,7 @@ const CardContainer = ({ children }: { children: React.ReactNode }) => (
 );
 
 const RightContainer = ({ children }: { children: React.ReactNode }) => (
-  <div className="col-span-3 p-4  border-r-[3px] border-gray-800 ">
+  <div className="col-span-3 border-r-[3px] border-gray-800 py-20">
     {children}
   </div>
 );
@@ -40,7 +40,7 @@ const ProjectThumbnail = ({ project }: { project: Project }) => (
     <Image
       src={`http://localhost:4600/public/images/projectMockupImage/laptopMockupImage.png`}
       alt={project.projectName}
-      className="w-full h-[400px] object-cover object-center"
+      className="w-full lg:h-[400px] object-cover object-center"
       width={500}
       height={400}
     />
@@ -58,7 +58,7 @@ const PointingLine = () => (
 );
 
 const CardBody = ({ project }: { project: Project }) => (
-  <div className="p-4 flex flex-col h-full justify-center items-end space-y-10">
+  <div className="flex flex-col h-full justify-center items-end space-y-10 pr-8">
     <h2 className="text-xl font-bold text-gray-800">{project.projectName}</h2>
     <p className="text-md font-normal text-gray-600">
       {project.projectDescription}

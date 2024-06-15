@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <PortfolioHeader />
+      {/* <PortfolioHeader /> */}
       {children}
     </>
   );

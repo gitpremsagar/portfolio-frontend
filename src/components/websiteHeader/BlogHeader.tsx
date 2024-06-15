@@ -8,6 +8,7 @@ const Navbar: React.FC = () => {
           <div className="text-white text-2xl font-bold">Prem Sagar</div>
         </Link>
         <ul className="flex space-x-4">
+          <NavbarLink href="/" linkText="Prem's Porfolio" />
           <NavbarLink href="/blog" linkText="Blog" />
           <NavbarLink href="/youtube" linkText="YouTube" />
           <NavbarLink href="/sign-up" linkText="Sign Up" />

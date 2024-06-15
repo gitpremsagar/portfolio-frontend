@@ -25,7 +25,7 @@ const ProjectsSection: React.FC = async () => {
 
   let flipper = false;
   return (
-    <section>
+    <section className="hidden md:block">
       <ResponsiveH2>Projects</ResponsiveH2>
 
       {projects.map((project) => {

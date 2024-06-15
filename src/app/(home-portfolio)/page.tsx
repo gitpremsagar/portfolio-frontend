@@ -10,7 +10,7 @@ export default function Home() {
       {/* hero section */}
       <HeroSection />
 
-      <div className="container">
+      <div className="container px-10 md:px-16">
         {/* projects section */}
         <ProjectsSection />
 
