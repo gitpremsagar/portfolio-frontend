@@ -5,6 +5,7 @@ import ResponsiveSection from "@/components/customUIs/ResponsiveSection";
 import ProjectCardLeft from "@/components/homepage/projectSection/ProjectCardLeft";
 import ResponsiveH2 from "@/components/customUIs/ResponsiveH2";
 import ProjectCardRight from "./ProjectCardRight";
+import ProjectCard from "@/components/homepage/projectSection/ProjectCard";
 
 type ProjectType = z.infer<typeof ProjectSchema>;
 async function fetchProjects(): Promise<ProjectType[]> {
@@ -25,18 +26,26 @@ const ProjectsSection: React.FC = async () => {
 
   let flipper = false;
   return (
-    <section className="hidden md:block">
-      <ResponsiveH2>Projects</ResponsiveH2>
+    <>
+      <section className="hidden md:block">
+        <ResponsiveH2>Projects</ResponsiveH2>
 
-      {projects.map((project) => {
-        flipper = !flipper;
-        return flipper ? (
-          <ProjectCardLeft key={project.projectId} project={project} />
-        ) : (
-          <ProjectCardRight key={project.projectId} project={project} />
-        );
-      })}
-    </section>
+        {projects.map((project) => {
+          flipper = !flipper;
+          return flipper ? (
+            <ProjectCardLeft key={project.projectId} project={project} />
+          ) : (
+            <ProjectCardRight key={project.projectId} project={project} />
+          );
+        })}
+      </section>
+      <section className="md:hidden flex flex-col space-y-10">
+        <ResponsiveH2>Projects</ResponsiveH2>
+        {projects.map((project) => (
+          <ProjectCard key={project.projectId} project={project} />
+        ))}
+      </section>
+    </>
   );
 };
 

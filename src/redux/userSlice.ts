@@ -1,21 +1,21 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { userSchema } from '@/lib/schemas';
-import { z } from 'zod';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { userSchema } from "@/lib/schemas";
+import { z } from "zod";
 
 // Define the type of your state
 type UserState = z.TypeOf<typeof userSchema>;
 
 const initialState: UserState = {
-  firstName: '',
-  lastName: '',
-  userRoll: '',
-  userId: '',
-  jwtToken: '',
-  email: '',
+  firstName: "",
+  lastName: "",
+  userRoll: "",
+  userId: "",
+  jwtToken: "",
+  email: "",
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {

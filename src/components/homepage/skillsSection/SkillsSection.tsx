@@ -19,7 +19,7 @@ const SkillsSection: React.FC = async () => {
     <section className="">
       <div className="py-20">
         <ResponsiveH2>Skills</ResponsiveH2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {technologies.map((technology) => (
             <div key={technology.technologyId} className="">
               <h3 className="text-lg font-semibold text-gray-800 mt-4">
