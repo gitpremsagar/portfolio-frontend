@@ -11,6 +11,10 @@ const nextConfig = {
         hostname: "source.unsplash.com",
       },
       {
+        protocol: "https",
+        hostname: "portfolio-backend-prem-sagar.vercel.app",
+      },      
+      {
         protocol: "http",
         hostname: "localhost",
       },

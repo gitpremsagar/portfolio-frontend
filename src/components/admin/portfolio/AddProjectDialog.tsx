@@ -110,25 +110,9 @@ export function AddProjectDialog({
       newProject.technologies.push(techId);
     });
 
-    const formData = new FormData();
-    formData.append("projectImage", selectedProjectImage as File);
-    formData.append("projectMockupImage", selectedProjectMockupImage as File);
-    formData.append("projectName", newProject.projectName);
-    formData.append("projectDescription", newProject.projectDescription);
-    formData.append("projectLiveLink", newProject.projectLiveLink);
-    formData.append("frontendCodeLink", newProject.frontendCodeLink);
-    formData.append("backendCodeLink", newProject.backendCodeLink);
-    formData.append("projectPosition", newProject.projectPosition.toString());
-    formData.append("technologies", JSON.stringify(newProject.technologies));
-
     setPostingCreateProjectForm(true);
     try {
-      const response = await axios.post(`${PROJECTS_API_ENDPOINT}`, formData, {
-        headers: {
-          Authorization: `Bearer ${user.jwtToken}`,
-          contentType: "multipart/form-data",
-        },
-      });
+      const response = await axios.post(PROJECTS_API_ENDPOINT, newProject);
       console.log("create proejct response = ", response.data);
       setProjects((prevTechnologies) => [...prevTechnologies, response.data]);
       setPostingCreateProjectForm(false);
@@ -138,9 +122,9 @@ export function AddProjectDialog({
       // // close the dialog
       // closeAddProjectDialogRef.current?.click();
     } catch (error) {
-      console.error("error in adding technology ", error);
+      console.error("error in adding project = ", error);
       setErrorpostingCreateProjectForm(true);
-      setErrorMessage("Error in adding technology");
+      setErrorMessage("Error in adding project");
       setPostingCreateProjectForm(false);
     }
   }

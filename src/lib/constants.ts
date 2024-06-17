@@ -1,4 +1,4 @@
-const BASE_API_URL = "http://localhost:4600";
+const BASE_API_URL = "https://portfolio-backend-prem-sagar.vercel.app";
 
 const USERS_API_ENDPOINT = `${BASE_API_URL}/api/users`;
 const TECHNOLOGIES_API_ENDPOINT = `${BASE_API_URL}/api/technologies`;

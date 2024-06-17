@@ -30,10 +30,7 @@ const ProjectCard = ({
     <Card className="rounded-lg overflow-hidden">
       <CardHeader>
         <Image
-          src={`${BASE_API_URL}/${project.projectImageLink.replace(
-            /\\/g,
-            "/"
-          )}`}
+          src={`${project.projectImageLink.replace(/\\/g, "/")}`}
           alt="Project image"
           width={500}
           height={400}
