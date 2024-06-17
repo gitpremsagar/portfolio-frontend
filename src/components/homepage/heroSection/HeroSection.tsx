@@ -24,9 +24,9 @@ const HeroSection: React.FC = () => {
           <p className="text-gray-900 text-sm sm:text-base md:text-lg mb-10">
             {`I'm a full-stack developer, a YouTuber and a teacher and a loving father of my daughter. I like to work as freelancer. Technologies that i use when I create website are React, Node.js, MongoDB, HTML, JavaScript and more.`}
           </p>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 mb-10">
+          {/* <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 mb-10">
             {`Download Resume`}
-          </button>
+          </button> */}
 
           <SocialMediaHnadles />
 
@@ -44,12 +44,12 @@ const HeroSection: React.FC = () => {
             <p>{`+91 9113413883`}</p>
 
             {/* Website */}
-            <SubHeading>{`Website`}</SubHeading>
+            {/* <SubHeading>{`Website`}</SubHeading>
             <a
               href="https://portfolio-adef2.firebaseapp.com/"
               target="_blank"
               className="text-blue-500 hover:underline transition duration-300"
-            >{`https://portfolio-adef2.firebaseapp.com/`}</a>
+            >{`https://portfolio-adef2.firebaseapp.com/`}</a> */}
           </div>
         </div>
       </div>
