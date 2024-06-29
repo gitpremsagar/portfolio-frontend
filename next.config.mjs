@@ -13,7 +13,11 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "portfolio-backend-prem-sagar.vercel.app",
-      },      
+      },
+      {
+        protocol: "https",
+        hostname: "s3.ap-south-1.amazonaws.com",
+      },
       {
         protocol: "http",
         hostname: "localhost",
